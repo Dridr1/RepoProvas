@@ -1,5 +1,5 @@
 import { Router } from "express";
-import testController from "../controllers/testController.js";
+import * as testController from "../controllers/testController.js";
 import { ensureAuthenticatedMiddleware } from "../middlewares/ensureAuthenticatedMiddleware.js";
 
 const testRouter = Router();

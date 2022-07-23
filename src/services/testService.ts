@@ -1,10 +1,23 @@
 import { Test } from "@prisma/client";
 import * as testRepository from "../repositories/testRepository.js";
-import { badRequestError } from "../utils/errorUtils.js";
+import { badRequestError, notFoundError } from "../utils/errorUtils.js";
 import * as categoryService from "./categoryService.js";
 import * as disciplineService from "./disciplineService.js";
 import * as teacherDisciplineService from "./teacherDisciplineService.js";
 import * as teacherService from "./teacherService.js";
+
+interface Filter {
+    groupBy: "disciplines" | "teachers";
+    teacher?: string;
+    discipline?: string;
+}
+
+export const find = async (filter: Filter) => {
+    if (filter.groupBy === "disciplines")
+        return testRepository.getTestsByDiscipline(filter.discipline);
+    else if (filter.groupBy === "teachers")
+        return testRepository.getTestsByTeachers(filter.teacher);
+};
 
 export type CreateTestData = Omit<
     Test,
@@ -40,4 +53,11 @@ export const insert = async (createTestData: CreateTestData) => {
         categoryId,
         teacherDisciplineId: teacherDiscipline.id,
     });
+};
+
+export const view = async (id: number) => {
+    const test = await testRepository.getById(id);
+    if (!test) throw notFoundError();
+
+    await testRepository.view(id);
 };
