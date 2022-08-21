@@ -71,6 +71,6 @@ model Test {
   categoryId          Int
   teacherDiscipline   TeacherDiscipline @relation(fields: [teacherDisciplineId], references: [id])
   teacherDisciplineId Int
-
+  view                Int               @default(0)
   @@map("tests")
 }

@@ -61,7 +61,11 @@ export const getById = async (id: number) => {
     });
 };
 
-export const view = async (id: number) => prisma.test.update({
-    where: { id },
-    data: { view: { increment: 1 } }
-});
+export const view = async (id: number) => {
+    return prisma.test.update({
+        where: { id },
+        data: {
+            view: { increment: 1 },
+        },
+    });
+};
